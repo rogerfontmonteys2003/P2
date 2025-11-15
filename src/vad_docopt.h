@@ -37,6 +37,7 @@ const char help_message[] =
 "   -o FILE, --output-vad=FILE  Label file with the result of VAD\n"
 "   -w FILE, --output-wav=FILE  WAVE file with silences cleared\n"
 "   -v, --verbose  Show debug information\n"
+"   -l --alpha1_db = FLOAT, marge de soroll\n"
 "   -h, --help     Show this screen\n"
 "   --version      Show the version of the project\n"
 "";

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+a="${1:-7.5}"
+
 # Be sure that this file has execution permissions:
 # Use the nautilus explorer or chmod +x run_vad.sh
 
@@ -10,7 +12,14 @@ set -o pipefail
 # Write here the name and path of your program and database
 DIR_P2=$HOME/PAV/P2
 DB=$DIR_P2/db.v4
-CMD=$DIR_P2/bin/vad
+CMD="$DIR_P2/bin/vad"
+
+echo "======================================================"
+echo "       EXECUCIÓ DEL PROGRAMA VAD SOBRE db.v4          "
+echo "======================================================"
+echo "a: $a"
+echo
+
 
 for filewav in $DB/*/*wav; do
 #    echo
@@ -22,7 +31,10 @@ for filewav in $DB/*/*wav; do
 
     filevad=${filewav/.wav/.vad}
 
-    $CMD -i $filewav -o $filevad || exit 1
+    #"$VAD" --alpha1_db "$alpha1_db" -i "$filewav" -o "$filevad"
+
+
+    #$CMD -i $filewav -o $filevad || exit 1
 
 # Alternatively, uncomment to create output wave files
 #    filewavOut=${filewav/.wav/.vad.wav}
@@ -30,6 +42,6 @@ for filewav in $DB/*/*wav; do
 
 done
 
-scripts/vad_evaluation.pl $DB/*/*lab
+scripts/vad_evaluation.pl "$DB"/*/*.lab
 
 exit 0

@@ -32,15 +32,26 @@ sub read_lab {
     open(IN, $filename) or die "Error opening input file: $filename\n";
     while (<IN>) {
 	chomp;
-	my ($tbeg, $tend, $label);
-	if (3 != (($tbeg, $tend, $label) = split)) {
+	s/\r//g;
+	next if /^\s*$/; # skip empty lines
+
+	my ($tbeg, $tend, $label) = split;
+	if (!defined $label) {
 	    print "Format error: $_\n";
 	    die;
 	}
+
+	$tbeg += 0;  $tend += 0;
+	$label =~ s/^\s+|\s+$//g;
+	$label =~ s/^MAYBE_//;
+	$label = 'S' if $label eq 'SILENCE';
+	$label = 'V' if $label eq 'VOICE';
+	next if $label eq 'UNDEF';
+
 	if ($tbeg != $t_old) {
 	    print "Error: time discontinuity:\n",
 	    "  t_old: $t_old\n",
-	    "  new line: $_\n";
+	    "  new line: $tbeg $tend $label\n";
 	}
 	push @data, [$tbeg, $tend, $label];
 	$t_old = $tend;
@@ -62,8 +73,9 @@ sub read_lab {
 sub match {
     my $i_vad = shift;
     my $i_ref = shift;
-    return 1 if (($i_ref->[0] < $i_vad->[1]) &&
-	($i_ref->[1] > $i_vad->[0]));
+	my $eps = 1.e-9;
+    return 1 if (($i_ref->[0] < $i_vad->[1] - $eps) &&
+	($i_ref->[1] > $i_vad->[0] + $eps));
     
     return 0;
 }
@@ -92,9 +104,18 @@ sub print_statistics {
 
     my $stat = shift;
 	my $filename = shift;
+
     foreach my $label (sort keys %{$stat}) {
 		my $t_hit = $stat->{$label}->[0];
 		my $t_err = $stat->{$label}->[1];
+		
+		$label =~ s/^MAYBE_//;
+		$label = 'S' if ($label eq 'SILENCE');
+		$label = 'V' if ($label eq 'VOICE');
+
+		
+
+		next if ($label eq 'UNDEF');
 
 		if ($label eq  'S') {
 			$SS += $t_hit;
@@ -173,7 +194,11 @@ sub compare_labs {
       while ($iref <= $#ref && !match($item, $ref[$iref])) {
 	  $iref++;	
       }	
-      last if $iref > $#ref;
+      if ($iref > $#ref) {
+		$iref = 0;
+		next;
+	  }
+	  
       
       # Compute the match for all the ref. intervals that 
       # (partially) match the tested label

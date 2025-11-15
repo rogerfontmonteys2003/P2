@@ -1,0 +1,6 @@
+#!/usr/bin/bash
+
+for alpha1_db in $(seq 10 0.1 12); do
+    echo -ne "$alpha1_db\t"
+    scripts/run_vad_experiment.sh $alpha1_db | grep TOTAL
+done | sort -t -k 2n
