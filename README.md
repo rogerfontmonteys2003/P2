@@ -188,6 +188,8 @@ Ejercicios
 - Indique a continuación si ha realizado algún tipo de aportación suplementaria (algoritmos de detección o 
   parámetros alternativos, etc.).
 
+  He posat un suavitzador de detecció, el qual decideix cada un nombre de frames minim si pot canviar de estat o no, aixó evita que el detector faci canvis molt bruscos i seguits.
+
 - Si lo desea, puede realizar también algún comentario acerca de la realización de la práctica que
   considere de interés de cara a su evaluación.
 
