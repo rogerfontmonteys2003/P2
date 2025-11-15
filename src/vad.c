@@ -56,8 +56,8 @@ typedef struct {
 
 
 //Calcul de les característiques d'un frame
-static Features compute_features(const float *x, int N) {
-
+static Features 
+compute_features(const float *x, int N) {
   Features feat;
 
     float p = compute_power(x, N);
