@@ -142,9 +142,16 @@ Ejercicios
 	* Incremento del nivel potencia en dB, respecto al nivel correspondiente al silencio inicial, para
 	  estar seguros de que un segmento de señal se corresponde con voz.
 
+    Aproximadament al passar els 40db de potencia podem deduir que la mostra de senyal es de veu, peró es molt relatiu respecte el soroll de fons i el microfon que fem 	servir.
+
 	* Duración mínima razonable de los segmentos de voz y silencio.
 
+    En la veu es triga més a iniciar així que en 10ms pot passar de silenci a veu, per l'altre banda de veu a silenci es mes rapid ja que en uns 5ms podem fer-ho.
+
 	* ¿Es capaz de sacar alguna conclusión a partir de la evolución de la tasa de cruces por cero?
+
+    Si ja que si hi han molts creuaments per 0 i poca potencia es indicatiu de que hi ha soroll i no veu.
+	
 
 
 ### Desarrollo del detector de actividad vocal
