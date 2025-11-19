@@ -136,21 +136,27 @@ Ejercicios
   continuación, una captura de `wavesurfer` en la que se vea con claridad la señal temporal, el contorno de
   potencia y la tasa de cruces por cero, junto con el etiquetado manual de los segmentos.
 
+  <img width="1912" height="365" alt="image" src="https://github.com/user-attachments/assets/309ef86a-f61c-47a8-98c9-6d4b0509f41c" />
+
+
+  Podem observar que en el panell .lab hi ha cada tram on es menciona si hi ha veu (V) o silenci (S).
+
+
 
 - A la vista de la gráfica, indique qué valores considera adecuados para las magnitudes siguientes:
 
 	* Incremento del nivel potencia en dB, respecto al nivel correspondiente al silencio inicial, para
 	  estar seguros de que un segmento de señal se corresponde con voz.
 
-    Aproximadament al passar els 40db de potencia podem deduir que la mostra de senyal es de veu, peró es molt relatiu respecte el soroll de fons i el microfon que fem 	servir.
-
+L'increment de db des de silenci a veu es de aproximadament fins els 15db, mentre que amb veu arriba fins als 70 db, així que l'increment es de uns 55db.
+    
 	* Duración mínima razonable de los segmentos de voz y silencio.
 
-    En la veu es triga més a iniciar així que en 10ms pot passar de silenci a veu, per l'altre banda de veu a silenci es mes rapid ja que en uns 5ms podem fer-ho.
+En acabar de parlar en tots els casos acaba de forma progressiva en comptes de acabar de cop. El temps és d'aproximadament uns 50ms
 
 	* ¿Es capaz de sacar alguna conclusión a partir de la evolución de la tasa de cruces por cero?
 
-    Si ja que si hi han molts creuaments per 0 i poca potencia es indicatiu de que hi ha soroll i no veu.
+En el moment en que hi han molts creuaments significa que no es veu sinó soroll, tot i aixó depenent de la potencia pot ser que sigui un soroll sord en comptes de soroll.
 	
 
 
@@ -160,14 +166,19 @@ Ejercicios
   tiempo real tan exacto como sea posible. Tome como objetivo la maximización de la puntuación-F `TOTAL`.
 
 - Inserte una gráfica en la que se vea con claridad la señal temporal, el etiquetado manual y la detección
-  automática conseguida para el fichero grabado al efecto. 
+  automática conseguida para el fichero grabado al efecto.
+
+  <img width="911" height="713" alt="image" src="https://github.com/user-attachments/assets/c0d0b0f7-215e-4b11-b3e0-923436141f49" />
 
 - Explique, si existen. las discrepancias entre el etiquetado manual y la detección automática.
+
+Podem veure que el detector es més propens a canviar d'estat que a la realitat ja que agafa finestres de 0,2 segons on ell diu que hi ha silenci i jo dic que hi ha veu.
 
 - Evalúe los resultados sobre la base de datos `db.v4` con el script `vad_evaluation.pl` e inserte a 
   continuación las tasas de sensibilidad (*recall*) y precisión para el conjunto de la base de datos (sólo
   el resumen).
 
+<img width="925" height="178" alt="image" src="https://github.com/user-attachments/assets/4efee564-e053-427a-998d-1b5cce55a709" />
 
 ### Trabajos de ampliación
 
@@ -188,7 +199,10 @@ Ejercicios
 - Indique a continuación si ha realizado algún tipo de aportación suplementaria (algoritmos de detección o 
   parámetros alternativos, etc.).
 
-  He posat un suavitzador de detecció, el qual decideix cada un nombre de frames minim si pot canviar de estat o no, aixó evita que el detector faci canvis molt bruscos i seguits.
+El meu algorisma conta amb:
+1. Suavitzador d'estats (requereix un minim de estats seguits per canviar d'estat)
+2. Estats de pas (Maybe_Voice o Maybe_Silence) que fan que el pas de veu a silenci no sigui an sobtat.
+3. Nivell de potenca adaptat a cada audió on tenim un nivell de veu segura i un de possible veu.
 
 - Si lo desea, puede realizar también algún comentario acerca de la realización de la práctica que
   considere de interés de cara a su evaluación.
